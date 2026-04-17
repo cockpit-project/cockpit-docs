@@ -1,21 +1,28 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 'use strict'
 
+const MAIN_BRANCH = "main";
+
 /**
  * Mark main branch (and asciidoc-guide during devel) as prerelease branches
  */
 export function register () {
-  this.once('contentClassified', ({ contentCatalog }) => {
+  const logger = this.getLogger('cockpit-prerelease')
+  this.once("contentClassified", ({ contentCatalog }) => {
+    let updatedLatest = false;
     contentCatalog.getComponents().forEach((component) => {
-      const prereleaseVersion = ["main", "asciidoc-guide"];
       component.versions.forEach((componentVersion) => {
-        console.log(`${componentVersion.version}@${componentVersion.name} attributes (compiled)`);
-        if (componentVersion.version in prereleaseVersion) {
-          console.log(`Setting prerelease for ${componentVersion.version}@${componentVersion.name}`)
+        logger.info(`${componentVersion.version}@${componentVersion.name} attributes (compiled)`);
+        if (componentVersion.version === MAIN_BRANCH) {
+          logger.info(`${componentVersion.version}@${componentVersion.name} setting prerelease`);
           componentVersion.prerelease = true;
+        } else if (!updatedLatest) {
+          logger.info(`${componentVersion.version}@${componentVersion.name} set as latest`);
+          component.latest = componentVersion;
+          updatedLatest = true;
         }
-      })
-    })
-    this.updateVariables({ contentCatalog })
-  })
+      });
+    });
+    this.updateVariables({ contentCatalog });
+  });
 }
