@@ -46,3 +46,4 @@ antora:
 asciidoc:
   extensions:
   - ./extensions/asciidoc/man-inline-replace.js
+  - ./extensions/asciidoc/cockpit-inline-release.js
