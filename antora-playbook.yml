@@ -40,6 +40,10 @@ antora:
     require: ./extensions/antora/cockpit-prerelease.js
     enabled: true
 
+  - id: last-minor-version
+    require: ./extensions/antora/last-minor-version.js
+    enabled: true
+
   - id: lunr
     require: '@antora/lunr-extension'
     index_latest_only: true
