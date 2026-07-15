@@ -9,7 +9,8 @@ content:
   sources:
   - url: https://github.com/cockpit-project/cockpit.git
     # Disable branches
-    branches: ~
+    branches:
+      - main
     tags:
       # Catch all
       - "*"
@@ -37,7 +38,7 @@ antora:
   extensions:
   - id: cockpit-prerelease
     require: ./extensions/antora/cockpit-prerelease.js
-    enabled: false
+    enabled: true
 
   - id: lunr
     require: '@antora/lunr-extension'
